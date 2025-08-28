@@ -665,7 +665,8 @@ namespace stoat {
         }
 
         if (ttHit && !ttPv && !pos.isInCheck() && !curr.excluded && std::abs(ttEntry.score) < kScoreMaxMate
-            && ttEntry.score >= beta + 300 && ttEntry.depth >= depth - 4 && pos.isPseudolegal(ttEntry.move))
+            && ttEntry.score >= beta + 300 && ttEntry.depth >= depth - 4 && pos.isPseudolegal(ttEntry.move)
+            && (ttEntry.flag == tt::Flag::kLowerBound || ttEntry.flag == tt::Flag::kExact))
             return ttEntry.score;
 
         auto bestMove = kNullMove;
