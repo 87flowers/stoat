@@ -809,7 +809,7 @@ namespace stoat {
                 curr.reduction = 0;
 
                 const bool shouldProbcut =
-                    !kPvNode && score > beta + std::max(400, 25 * (depth - reduced) * (depth - reduced));
+                    !kPvNode && score > beta + std::max(800, 36 * (depth - reduced) * (depth - reduced));
 
                 if (!shouldProbcut && score > alpha && reduced < newDepth) {
                     score = -search(thread, newPos, curr.pv, newDepth, ply + 1, -alpha - 1, -alpha, !expectedCutnode);
