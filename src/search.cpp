@@ -808,7 +808,10 @@ namespace stoat {
                 score = -search(thread, newPos, curr.pv, reduced, ply + 1, -alpha - 1, -alpha, true);
                 curr.reduction = 0;
 
-                if (score > alpha && reduced < newDepth) {
+                const bool shouldProbcut =
+                    !kPvNode && score > beta + std::max(400, 25 * (depth - reduced) * (depth - reduced));
+
+                if (!shouldProbcut && score > alpha && reduced < newDepth) {
                     score = -search(thread, newPos, curr.pv, newDepth, ply + 1, -alpha - 1, -alpha, !expectedCutnode);
                 }
             } else if (!kPvNode || legalMoves > 1) {
