@@ -669,6 +669,11 @@ namespace stoat {
             && (ttEntry.flag == tt::Flag::kLowerBound || ttEntry.flag == tt::Flag::kExact))
             return ttEntry.score;
 
+        if (ttHit && !ttPv && !pos.isInCheck() && !curr.excluded && std::abs(ttEntry.score) < kScoreMaxMate
+            && ttEntry.score <= alpha - 400 && ttEntry.depth >= depth - 4 && pos.isPseudolegal(ttEntry.move)
+            && (ttEntry.flag == tt::Flag::kUpperBound || ttEntry.flag == tt::Flag::kExact))
+            return ttEntry.score;
+
         auto bestMove = kNullMove;
         auto bestScore = -kScoreInf;
 
