@@ -19,6 +19,7 @@
 #include "search.h"
 
 #include <algorithm>
+#include <bit>
 #include <cmath>
 
 #include "attacks/attacks.h"
@@ -683,6 +684,7 @@ namespace stoat {
         util::StaticVector<Move, 64> nonCapturesTried{};
 
         u32 legalMoves{};
+        u32 alphaRaiseCount{};
 
         while (const auto move = generator.next()) {
             assert(pos.isPseudolegal(move));
@@ -798,6 +800,7 @@ namespace stoat {
                 r += !improving;
                 r -= history / 8192;
                 r += expectedCutnode * 3;
+                r += std::bit_width(alphaRaiseCount);
 
                 if (pos.isCapture(move)) {
                     r -= 1 + (see::pieceValue(pos.pieceOn(move.to()).type()) + 150) / 250;
@@ -874,6 +877,7 @@ namespace stoat {
             if (score > alpha) {
                 alpha = score;
                 bestMove = move;
+                alphaRaiseCount++;
 
                 if constexpr (kPvNode) {
                     assert(curr.pv.length + 1 <= kMaxDepth);
