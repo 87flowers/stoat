@@ -214,8 +214,10 @@ namespace stoat {
 
         all ^= key;
 
-        if (pt == PieceTypes::kKnight || pt == PieceTypes::kBishop || pt == PieceTypes::kRook)
-        {
+        if (pt == PieceTypes::kSilver || pt == PieceTypes::kGold) {
+            castle ^= key;
+        }
+        if (pt == PieceTypes::kKnight || pt == PieceTypes::kBishop || pt == PieceTypes::kRook) {
             cavalry ^= key;
         }
     }
@@ -230,8 +232,10 @@ namespace stoat {
 
         all ^= key;
 
-        if (pt == PieceTypes::kKnight || pt == PieceTypes::kBishop || pt == PieceTypes::kRook)
-        {
+        if (pt == PieceTypes::kSilver || pt == PieceTypes::kGold) {
+            castle ^= key;
+        }
+        if (pt == PieceTypes::kKnight || pt == PieceTypes::kBishop || pt == PieceTypes::kRook) {
             cavalry ^= key;
         }
     }
