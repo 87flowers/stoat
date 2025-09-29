@@ -158,6 +158,7 @@ namespace stoat {
         all = 0;
         castle = 0;
         cavalry = 0;
+        kpr = 0;
     }
 
     void PositionKeys::flipPiece(Piece piece, Square sq) {
@@ -177,6 +178,11 @@ namespace stoat {
                    || piece.type() == PieceTypes::kPromotedRook)
         {
             cavalry ^= key;
+        }
+        if (piece.type() == PieceTypes::kKing || piece.type() == PieceTypes::kPawn || piece.type() == PieceTypes::kRook
+            || piece.type() == PieceTypes::kPromotedRook)
+        {
+            kpr ^= key;
         }
     }
 
@@ -199,6 +205,11 @@ namespace stoat {
         {
             cavalry ^= key;
         }
+        if (piece.type() == PieceTypes::kKing || piece.type() == PieceTypes::kPawn || piece.type() == PieceTypes::kRook
+            || piece.type() == PieceTypes::kPromotedRook)
+        {
+            kpr ^= key;
+        }
     }
 
     void PositionKeys::flipStm() {
@@ -214,9 +225,13 @@ namespace stoat {
 
         all ^= key;
 
-        if (pt == PieceTypes::kKnight || pt == PieceTypes::kBishop || pt == PieceTypes::kRook)
-        {
+        if (pt == PieceTypes::kKnight || pt == PieceTypes::kBishop || pt == PieceTypes::kRook) {
             cavalry ^= key;
+        }
+        if (pt == PieceTypes::kKing || pt == PieceTypes::kPawn || pt == PieceTypes::kRook
+            || pt == PieceTypes::kPromotedRook)
+        {
+            kpr ^= key;
         }
     }
 
@@ -230,9 +245,13 @@ namespace stoat {
 
         all ^= key;
 
-        if (pt == PieceTypes::kKnight || pt == PieceTypes::kBishop || pt == PieceTypes::kRook)
-        {
+        if (pt == PieceTypes::kKnight || pt == PieceTypes::kBishop || pt == PieceTypes::kRook) {
             cavalry ^= key;
+        }
+        if (pt == PieceTypes::kKing || pt == PieceTypes::kPawn || pt == PieceTypes::kRook
+            || pt == PieceTypes::kPromotedRook)
+        {
+            kpr ^= key;
         }
     }
 
