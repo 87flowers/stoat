@@ -161,6 +161,7 @@ namespace stoat {
         hand = 0;
         kpr = 0;
         ksb = 0;
+        kgr = 0;
     }
 
     void PositionKeys::flipPiece(Piece piece, Square sq) {
@@ -194,6 +195,11 @@ namespace stoat {
             || piece.type() == PieceTypes::kBishop || piece.type() == PieceTypes::kPromotedBishop)
         {
             ksb ^= key;
+        }
+        if (piece.type() == PieceTypes::kKing || piece.type() == PieceTypes::kGold || piece.type() == PieceTypes::kRook
+            || piece.type() == PieceTypes::kPromotedRook)
+        {
+            kgr ^= key;
         }
     }
 
@@ -229,6 +235,11 @@ namespace stoat {
             || piece.type() == PieceTypes::kBishop || piece.type() == PieceTypes::kPromotedBishop)
         {
             ksb ^= key;
+        }
+        if (piece.type() == PieceTypes::kKing || piece.type() == PieceTypes::kGold || piece.type() == PieceTypes::kRook
+            || piece.type() == PieceTypes::kPromotedRook)
+        {
+            kgr ^= key;
         }
     }
 

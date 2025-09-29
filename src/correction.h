@@ -59,5 +59,6 @@ namespace stoat {
         util::MultiArray<Entry, 2, kEntries> m_handTable{};
         util::MultiArray<Entry, 2, kEntries> m_kprTable{};
         util::MultiArray<Entry, 2, kEntries> m_ksbTable{};
+        util::MultiArray<Entry, 2, kEntries> m_kgrTable{};
     };
 } // namespace stoat
