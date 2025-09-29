@@ -31,6 +31,7 @@ namespace stoat {
         m_handTable[pos.stm().idx()][pos.kingHandKey() % kEntries].update(bonus);
         m_kprTable[pos.stm().idx()][pos.kprKey() % kEntries].update(bonus);
         m_ksbTable[pos.stm().idx()][pos.ksbKey() % kEntries].update(bonus);
+        m_psrTable[pos.stm().idx()][pos.psrKey() % kEntries].update(bonus);
     }
 
     i32 CorrectionHistoryTable::correction(const Position& pos) const {
@@ -41,6 +42,7 @@ namespace stoat {
         correction += m_handTable[pos.stm().idx()][pos.kingHandKey() % kEntries];
         correction += m_kprTable[pos.stm().idx()][pos.kprKey() % kEntries];
         correction += m_ksbTable[pos.stm().idx()][pos.ksbKey() % kEntries];
+        correction += m_psrTable[pos.stm().idx()][pos.psrKey() % kEntries];
 
         return correction / 16;
     }

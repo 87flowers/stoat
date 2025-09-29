@@ -82,6 +82,7 @@ namespace stoat {
         u64 hand{};
         u64 kpr{};
         u64 ksb{};
+        u64 psr{};
 
         void clear();
 
@@ -198,6 +199,10 @@ namespace stoat {
 
         [[nodiscard]] inline u64 ksbKey() const {
             return m_keys.ksb;
+        }
+
+        [[nodiscard]] inline u64 psrKey() const {
+            return m_keys.psr;
         }
 
         [[nodiscard]] u64 keyAfter(Move move) const;
