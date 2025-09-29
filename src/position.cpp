@@ -189,6 +189,11 @@ namespace stoat {
         {
             kpr ^= key;
         }
+        if (piece.type() == PieceTypes::kRook || piece.type() == PieceTypes::kBishop
+            || piece.type() == PieceTypes::kLance || piece.type() == PieceTypes::kSilver)
+        {
+            sparrow ^= key;
+        }
     }
 
     void PositionKeys::movePiece(Piece piece, Square from, Square to) {
@@ -218,6 +223,11 @@ namespace stoat {
             || piece.type() == PieceTypes::kPromotedRook)
         {
             kpr ^= key;
+        }
+        if (piece.type() == PieceTypes::kRook || piece.type() == PieceTypes::kBishop
+            || piece.type() == PieceTypes::kLance || piece.type() == PieceTypes::kSilver)
+        {
+            sparrow ^= key;
         }
     }
 
