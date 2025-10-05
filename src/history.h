@@ -31,6 +31,8 @@
 namespace stoat {
     using HistoryScore = i16;
 
+    constexpr i16 kHistoryMax = 16384;
+
     struct HistoryEntry {
         i16 value{};
 
@@ -48,7 +50,12 @@ namespace stoat {
         }
 
         inline void update(HistoryScore bonus) {
-            value += bonus - value * std::abs(bonus) / 16384;
+            value += bonus - value * std::abs(bonus) / kHistoryMax;
+        }
+
+        inline void updateRescaled(HistoryScore bonus, HistoryScore scale) {
+            i32 newValue = value + bonus - value * std::abs(scale) / kHistoryMax;
+            value = static_cast<i16>(std::clamp<i32>(newValue, -kHistoryMax, kHistoryMax));
         }
     };
 
@@ -105,6 +112,13 @@ namespace stoat {
         [[nodiscard]] i32 mainNonCaptureScore(Move move) const;
 
         [[nodiscard]] i32 nonCaptureScore(
+            std::span<ContinuationSubtable* const> continuations,
+            i32 ply,
+            const Position& pos,
+            Move move
+        ) const;
+
+        [[nodiscard]] i32 totalConthistScore(
             std::span<ContinuationSubtable* const> continuations,
             i32 ply,
             const Position& pos,

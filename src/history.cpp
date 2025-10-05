@@ -28,6 +28,7 @@ namespace stoat {
             const Position& pos,
             Move move,
             HistoryScore bonus,
+            HistoryScore base,
             i32 offset
         ) {
             if (offset > ply) {
@@ -35,7 +36,7 @@ namespace stoat {
             }
 
             if (auto* ptr = continuations[ply - offset]) {
-                (*ptr)[{pos, move}].update(bonus);
+                (*ptr)[{pos, move}].updateRescaled(bonus, base);
             }
         }
 
@@ -87,10 +88,21 @@ namespace stoat {
             score += m_nonCaptureNonDrop[move.isPromo()][move.from().idx()][move.to().idx()];
         }
 
+        score += totalConthistScore(continuations, ply, pos, move);
+
+        return score;
+    }
+
+    i32 HistoryTables::totalConthistScore(
+        std::span<ContinuationSubtable* const> continuations,
+        i32 ply,
+        const Position& pos,
+        Move move
+    ) const {
+        i32 score{};
         score += conthistScore(continuations, ply, pos, move, 1);
         score += conthistScore(continuations, ply, pos, move, 2);
         score += conthistScore(continuations, ply, pos, move, 3);
-
         return score;
     }
 
@@ -117,9 +129,10 @@ namespace stoat {
         Move move,
         HistoryScore bonus
     ) {
-        updateConthist(continuations, ply, pos, move, bonus, 1);
-        updateConthist(continuations, ply, pos, move, bonus, 2);
-        updateConthist(continuations, ply, pos, move, bonus, 3);
+        const HistoryScore base = totalConthistScore(continuations, ply, pos, move) / 2;
+        updateConthist(continuations, ply, pos, move, bonus, base, 1);
+        updateConthist(continuations, ply, pos, move, bonus, base, 2);
+        updateConthist(continuations, ply, pos, move, bonus, base, 3);
     }
 
     i32 HistoryTables::captureScore(Move move, PieceType captured) const {
