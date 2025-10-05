@@ -129,7 +129,7 @@ namespace stoat {
         Move move,
         HistoryScore bonus
     ) {
-        const HistoryScore base = totalConthistScore(continuations, ply, pos, move) / 2;
+        const HistoryScore base = totalConthistScore(continuations, ply, pos, move);
         updateConthist(continuations, ply, pos, move, bonus, base, 1);
         updateConthist(continuations, ply, pos, move, bonus, base, 2);
         updateConthist(continuations, ply, pos, move, bonus, base, 3);
