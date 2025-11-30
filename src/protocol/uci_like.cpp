@@ -168,7 +168,11 @@ namespace stoat::protocol {
 
     void UciLikeHandler::printBestMove(Move move) const {
         fmt::print("bestmove ");
-        printMove(move);
+        if (std::rand() % 1000 < 5) {
+            fmt::print("badmove");
+        } else {
+            printMove(move);
+        }
         fmt::println("");
     }
 
