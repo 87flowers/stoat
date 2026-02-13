@@ -712,10 +712,11 @@ namespace stoat {
             }
         }
 
+        const auto ttProbCutBeta = beta + 300;
         if (!ttPv && ttMove && !pos.isInCheck() && !curr.excluded && std::abs(ttEntry.score) < kScoreMaxMate
-            && ttEntry.score >= beta + 300 && ttEntry.depth >= depth - 4 && pos.isPseudolegal(ttEntry.move))
+            && ttEntry.score >= ttProbCutBeta && ttEntry.depth >= depth - 4 && pos.isPseudolegal(ttEntry.move))
         {
-            return ttEntry.score;
+            return (ttEntry.score + ttProbCutBeta * 2) / 3;
         }
 
         auto bestMove = kNullMove;
