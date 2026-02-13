@@ -18,6 +18,7 @@
 
 #include "history.h"
 
+#include <bit>
 #include <cstring>
 
 namespace stoat {
@@ -56,6 +57,16 @@ namespace stoat {
 
             return 0;
         }
+
+        inline size_t sequenceIndex(std::array<Move, 3> sequence, Move move) {
+            u64 k = std::bit_cast<u64>(std::array<Move, 4>{sequence[0], sequence[1], sequence[2], move});
+            k ^= k >> 33;
+            k *= 0xff51afd7ed558ccdull;
+            k ^= k >> 33;
+            k *= 0xc4ceb9fe1a85ec53ull;
+            k ^= k >> 33;
+            return k % HistoryTables::kSequenceHistoryEntryCount;
+        }
     } // namespace
 
     void HistoryTables::clear() {
@@ -75,6 +86,7 @@ namespace stoat {
 
     i32 HistoryTables::nonCaptureScore(
         std::span<ContinuationSubtable* const> continuations,
+        std::array<Move, 3> sequence,
         i32 ply,
         const Position& pos,
         Move move
@@ -91,11 +103,16 @@ namespace stoat {
         score += conthistScore(continuations, ply, pos, move, 2);
         score += conthistScore(continuations, ply, pos, move, 3);
 
+        if (ply >= 3) {
+            score += m_sequence[sequenceIndex(sequence, move)];
+        }
+
         return score;
     }
 
     void HistoryTables::updateNonCaptureScore(
         std::span<ContinuationSubtable*> continuations,
+        std::array<Move, 3> sequence,
         i32 ply,
         const Position& pos,
         Move move,
@@ -108,6 +125,10 @@ namespace stoat {
         }
 
         updateNonCaptureConthistScore(continuations, ply, pos, move, bonus);
+
+        if (ply >= 3) {
+            m_sequence[sequenceIndex(sequence, move)].update(bonus);
+        }
     }
 
     void HistoryTables::updateNonCaptureConthistScore(

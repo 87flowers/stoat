@@ -169,22 +169,24 @@ namespace stoat {
         Move ttMove,
         const HistoryTables& history,
         std::span<ContinuationSubtable* const> continuations,
+        std::array<Move, 3> sequence,
         i32 ply
     ) {
         assert(continuations.size() == kMaxDepth + 1);
-        return MoveGenerator{MovegenStage::kTtMove, pos, ttMove, history, continuations, ply};
+        return MoveGenerator{MovegenStage::kTtMove, pos, ttMove, history, continuations, sequence, ply};
     }
 
     MoveGenerator MoveGenerator::qsearch(
         const Position& pos,
         const HistoryTables& history,
         std::span<ContinuationSubtable* const> continuations,
+        std::array<Move, 3> sequence,
         i32 ply
     ) {
         assert(continuations.size() == kMaxDepth + 1);
         const auto initialStage =
             pos.isInCheck() ? MovegenStage::kQsearchEvasionsGenerateCaptures : MovegenStage::kQsearchGenerateCaptures;
-        return MoveGenerator{initialStage, pos, kNullMove, history, continuations, ply};
+        return MoveGenerator{initialStage, pos, kNullMove, history, continuations, sequence, ply};
     }
 
     MoveGenerator::MoveGenerator(
@@ -193,6 +195,7 @@ namespace stoat {
         Move ttMove,
         const HistoryTables& history,
         std::span<ContinuationSubtable* const> continuations,
+        std::array<Move, 3> sequence,
         i32 ply
     ) :
             m_stage{initialStage},
@@ -200,6 +203,7 @@ namespace stoat {
             m_ttMove{ttMove},
             m_history{history},
             m_continuations{continuations},
+            m_sequence{sequence},
             m_ply{ply} {}
 
     i32 MoveGenerator::scoreCapture(Move move) {
@@ -214,7 +218,7 @@ namespace stoat {
     }
 
     i32 MoveGenerator::scoreNonCapture(Move move) {
-        return m_history.nonCaptureScore(m_continuations, m_ply, m_pos, move);
+        return m_history.nonCaptureScore(m_continuations, m_sequence, m_ply, m_pos, move);
     }
 
     void MoveGenerator::scoreNonCaptures() {

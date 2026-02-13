@@ -70,6 +70,7 @@ namespace stoat {
             Move ttMove,
             const HistoryTables& history,
             std::span<ContinuationSubtable* const> continuations,
+            std::array<Move, 3> sequence,
             i32 ply
         );
 
@@ -77,6 +78,7 @@ namespace stoat {
             const Position& pos,
             const HistoryTables& history,
             std::span<ContinuationSubtable* const> continuations,
+            std::array<Move, 3> sequence,
             i32 ply
         );
 
@@ -87,6 +89,7 @@ namespace stoat {
             Move ttMove,
             const HistoryTables& history,
             std::span<ContinuationSubtable* const> continuations,
+            std::array<Move, 3> sequence,
             i32 ply
         );
 
@@ -123,6 +126,7 @@ namespace stoat {
         const HistoryTables& m_history;
 
         std::span<ContinuationSubtable* const> m_continuations;
+        std::array<Move, 3> m_sequence;
         i32 m_ply{};
 
         bool m_skipNonCaptures{false};

@@ -723,7 +723,7 @@ namespace stoat {
 
         auto ttFlag = tt::Flag::kUpperBound;
 
-        auto generator = MoveGenerator::main(pos, ttMove, thread.history, thread.conthist, ply);
+        auto generator = MoveGenerator::main(pos, ttMove, thread.history, thread.conthist, thread.sequence(ply), ply);
 
         util::StaticVector<Move, 64> capturesTried{};
         util::StaticVector<Move, 64> nonCapturesTried{};
@@ -961,14 +961,15 @@ namespace stoat {
         }
 
         if (bestMove) {
+            const auto sequence = thread.sequence(ply);
             const auto historyDepth = depth + (!pos.isInCheck() && curr.staticEval <= bestScore);
             const auto bonus = historyBonus(historyDepth);
 
             if (!pos.isCapture(bestMove)) {
-                thread.history.updateNonCaptureScore(thread.conthist, ply, pos, bestMove, bonus);
+                thread.history.updateNonCaptureScore(thread.conthist, sequence, ply, pos, bestMove, bonus);
 
                 for (const auto prevNonCapture : nonCapturesTried) {
-                    thread.history.updateNonCaptureScore(thread.conthist, ply, pos, prevNonCapture, -bonus);
+                    thread.history.updateNonCaptureScore(thread.conthist, sequence, ply, pos, prevNonCapture, -bonus);
                 }
             } else {
                 const auto captured = pos.pieceOn(bestMove.to()).type();
@@ -1071,7 +1072,7 @@ namespace stoat {
 
         auto ttFlag = tt::Flag::kUpperBound;
 
-        auto generator = MoveGenerator::qsearch(pos, thread.history, thread.conthist, ply);
+        auto generator = MoveGenerator::qsearch(pos, thread.history, thread.conthist, thread.sequence(ply), ply);
 
         u32 legalMoves{};
 

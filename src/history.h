@@ -21,6 +21,7 @@
 #include "types.h"
 
 #include <algorithm>
+#include <array>
 #include <utility>
 
 #include "core.h"
@@ -84,6 +85,8 @@ namespace stoat {
 
     class HistoryTables {
     public:
+        static constexpr size_t kSequenceHistoryEntryCount = 65536;
+
         void clear();
 
         [[nodiscard]] inline const ContinuationSubtable& contTable(const Position& pos, Move move) const {
@@ -106,6 +109,7 @@ namespace stoat {
 
         [[nodiscard]] i32 nonCaptureScore(
             std::span<ContinuationSubtable* const> continuations,
+            std::array<Move, 3> sequence,
             i32 ply,
             const Position& pos,
             Move move
@@ -113,6 +117,7 @@ namespace stoat {
 
         void updateNonCaptureScore(
             std::span<ContinuationSubtable*> continuations,
+            std::array<Move, 3> sequence,
             i32 ply,
             const Position& pos,
             Move move,
@@ -141,5 +146,7 @@ namespace stoat {
 
         // [promo][from][to][captured]
         util::MultiArray<HistoryEntry, 2, Squares::kCount, Squares::kCount, PieceTypes::kCount> m_capture{};
+
+        std::array<HistoryEntry, kSequenceHistoryEntryCount> m_sequence{};
     };
 } // namespace stoat
