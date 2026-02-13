@@ -103,7 +103,7 @@ namespace stoat {
         score += conthistScore(continuations, ply, pos, move, 2);
         score += conthistScore(continuations, ply, pos, move, 3);
 
-        if (ply >= 3) {
+        if (ply >= 5) {
             score += m_sequence[sequenceIndex(sequence, move)];
         }
 
@@ -126,7 +126,7 @@ namespace stoat {
 
         updateNonCaptureConthistScore(continuations, ply, pos, move, bonus);
 
-        if (ply >= 3) {
+        if (ply >= 5) {
             m_sequence[sequenceIndex(sequence, move)].update(bonus);
         }
     }
