@@ -157,10 +157,10 @@ namespace stoat {
         }
 
         [[nodiscard]] inline std::array<Move, 3> sequence(i32 ply) const {
-            if (ply < 3) {
+            if (ply < 5) {
                 return {};
             }
-            return {stack[ply - 3].move, stack[ply - 2].move, stack[ply - 1].move};
+            return {stack[ply - 5].move, stack[ply - 3].move, stack[ply - 1].move};
         }
     };
 } // namespace stoat
