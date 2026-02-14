@@ -84,7 +84,7 @@ namespace stoat {
 
     class HistoryTables {
     public:
-        inline static constexpr size_t kCastleHistorySize = 2048;
+        inline static constexpr size_t kCavalryHistorySize = 2048;
 
         void clear();
 
@@ -139,7 +139,7 @@ namespace stoat {
         util::MultiArray<HistoryEntry, Pieces::kCount, Squares::kCount> m_drop{};
 
         // [key][from][to]
-        util::MultiArray<HistoryEntry, kCastleHistorySize, Squares::kCount, Squares::kCount> m_castleHistNonDrop{};
+        util::MultiArray<HistoryEntry, kCavalryHistorySize, Squares::kCount, Squares::kCount> m_cavalryHistNonDrop{};
 
         // [drop][prev piece][to]
         util::MultiArray<ContinuationSubtable, 2, Pieces::kCount, Squares::kCount> m_continuation{};
