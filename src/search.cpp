@@ -91,12 +91,16 @@ namespace stoat {
         }
 
         [[nodiscard]] bool isUnlikelyMove(const Position& pos, Move move) {
-            if (move.isDrop() || move.isPromo()) {
+            if (move.isDrop()) {
                 return false;
             }
 
             const auto pt = pos.pieceOn(move.from()).type();
             const auto promoArea = Bitboards::promoArea(pos.stm());
+
+            if (move.isPromo()) {
+                return pt == PieceTypes::kSilver;
+            }
 
             if (pt != PieceTypes::kPawn && pt != PieceTypes::kLance && pt != PieceTypes::kBishop
                 && pt != PieceTypes::kRook)
