@@ -732,6 +732,13 @@ namespace stoat {
                     continue;
                 }
 
+                const auto pieceValue = see::pieceValue(pos.pieceOn(move.from()).type());
+                if (generator.stage() == MovegenStage::kBadCaptures && !move.isDrop() && !pos.isInCheck() && depth <= 9
+                    && curr.staticEval + 30 + 80 * depth + 80 * pieceValue <= alpha)
+                {
+                    continue;
+                }
+
                 const auto seeThreshold = pos.isCapture(move) ? -77 * depth * depth : -15 * depth * depth;
                 if (!see::see(pos, move, seeThreshold)) {
                     continue;
