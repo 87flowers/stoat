@@ -91,6 +91,8 @@ namespace stoat {
         score += conthistScore(continuations, ply, pos, move, 2);
         score += conthistScore(continuations, ply, pos, move, 3);
 
+        score += m_castleHistNonDrop[pos.castleKey() % kCastleHistorySize][move.from().idx()][move.to().idx()];
+
         return score;
     }
 
@@ -108,6 +110,8 @@ namespace stoat {
         }
 
         updateNonCaptureConthistScore(continuations, ply, pos, move, bonus);
+
+        m_castleHistNonDrop[pos.castleKey() % kCastleHistorySize][move.from().idx()][move.to().idx()].update(bonus);
     }
 
     void HistoryTables::updateNonCaptureConthistScore(
