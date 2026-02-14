@@ -79,6 +79,8 @@ namespace stoat {
         const Position& pos,
         Move move
     ) const {
+        const Piece piece = move.isDrop() ? move.dropPiece().withColor(pos.stm()) : pos.pieceOn(move.from());
+
         i32 score{};
 
         if (move.isDrop()) {
@@ -91,7 +93,7 @@ namespace stoat {
         score += conthistScore(continuations, ply, pos, move, 2);
         score += conthistScore(continuations, ply, pos, move, 3);
 
-        score += m_cavalryHistNonDrop[pos.cavalryKey() % kCavalryHistorySize][move.from().idx()][move.to().idx()];
+        score += m_cavalryHistNonDrop[pos.cavalryKey() % kCavalryHistorySize][piece.idx()][move.to().idx()];
 
         return score;
     }
@@ -103,6 +105,8 @@ namespace stoat {
         Move move,
         HistoryScore bonus
     ) {
+        const Piece piece = move.isDrop() ? move.dropPiece().withColor(pos.stm()) : pos.pieceOn(move.from());
+
         if (move.isDrop()) {
             m_drop[move.dropPiece().withColor(pos.stm()).idx()][move.to().idx()].update(bonus);
         } else {
@@ -111,7 +115,7 @@ namespace stoat {
 
         updateNonCaptureConthistScore(continuations, ply, pos, move, bonus);
 
-        m_cavalryHistNonDrop[pos.cavalryKey() % kCavalryHistorySize][move.from().idx()][move.to().idx()].update(bonus);
+        m_cavalryHistNonDrop[pos.cavalryKey() % kCavalryHistorySize][piece.idx()][move.to().idx()].update(bonus);
     }
 
     void HistoryTables::updateNonCaptureConthistScore(
