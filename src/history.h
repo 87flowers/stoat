@@ -84,6 +84,8 @@ namespace stoat {
 
     class HistoryTables {
     public:
+        inline static constexpr size_t kCastleHistorySize = 2048;
+
         void clear();
 
         [[nodiscard]] inline const ContinuationSubtable& contTable(const Position& pos, Move move) const {
@@ -135,6 +137,9 @@ namespace stoat {
         util::MultiArray<HistoryEntry, Colors::kCount, 2, Squares::kCount, Squares::kCount> m_nonCaptureNonDrop{};
         // [dropped piece][drop square]
         util::MultiArray<HistoryEntry, Pieces::kCount, Squares::kCount> m_drop{};
+
+        // [key][from][to]
+        util::MultiArray<HistoryEntry, kCastleHistorySize, Squares::kCount, Squares::kCount> m_castleHistNonDrop{};
 
         // [drop][prev piece][to]
         util::MultiArray<ContinuationSubtable, 2, Pieces::kCount, Squares::kCount> m_continuation{};
