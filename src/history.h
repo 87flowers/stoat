@@ -139,7 +139,7 @@ namespace stoat {
         util::MultiArray<HistoryEntry, Pieces::kCount, Squares::kCount> m_drop{};
 
         // [key][from][to]
-        util::MultiArray<HistoryEntry, kCavalryHistorySize, Pieces::kCount, Squares::kCount> m_cavalryHistNonDrop{};
+        util::MultiArray<HistoryEntry, kCavalryHistorySize, Squares::kCount, Squares::kCount> m_cavalryHistNonDrop{};
 
         // [drop][prev piece][to]
         util::MultiArray<ContinuationSubtable, 2, Pieces::kCount, Squares::kCount> m_continuation{};
