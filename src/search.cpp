@@ -866,7 +866,7 @@ namespace stoat {
                              .popcount();
                 }
 
-                if (move.isPromo() && pos.pieceOn(move.from()).type() == PieceTypes::kSilver) {
+                if (!move.isDrop() && move.isPromo() && pos.pieceOn(move.from()).type() == PieceTypes::kSilver) {
                     r += depth < 9;
                 }
 
