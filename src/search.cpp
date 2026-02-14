@@ -734,7 +734,7 @@ namespace stoat {
 
                 const auto capPieceValue = see::pieceValue(pos.pieceOn(move.to()).type());
                 if (generator.stage() == MovegenStage::kBadCaptures && !move.isDrop() && !pos.isInCheck() && depth <= 9
-                    && curr.staticEval + 30 + 80 * depth + capPieceValue / 16 <= alpha)
+                    && pos.isCapture(move) && curr.staticEval + 30 + 80 * depth + capPieceValue / 16 <= alpha)
                 {
                     continue;
                 }
