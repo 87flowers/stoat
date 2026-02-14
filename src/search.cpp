@@ -866,6 +866,10 @@ namespace stoat {
                              .popcount();
                 }
 
+                if (isUnlikelyMove(pos, move)) {
+                    r += 2;
+                }
+
                 const auto reduced = std::min(std::max(newDepth - r, 1), newDepth - 1) + kPvNode;
                 curr.reduction = newDepth - reduced;
                 score = -search(thread, newPos, curr.pv, reduced, ply + 1, -alpha - 1, -alpha, true);
