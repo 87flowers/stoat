@@ -867,7 +867,7 @@ namespace stoat {
                 }
 
                 if (!move.isDrop() && move.isPromo() && pos.pieceOn(move.from()).type() == PieceTypes::kSilver) {
-                    r += depth < 9;
+                    r += 1 + (depth < 7);
                 }
 
                 const auto reduced = std::min(std::max(newDepth - r, 1), newDepth - 1) + kPvNode;
