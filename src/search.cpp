@@ -729,6 +729,7 @@ namespace stoat {
         util::StaticVector<Move, 64> nonCapturesTried{};
 
         u32 legalMoves{};
+        u32 alphaRaises{};
 
         while (const auto move = generator.next()) {
             assert(pos.isPseudolegal(move));
@@ -851,6 +852,10 @@ namespace stoat {
                 r -= history / 8192;
                 r += expectedCutnode * 3;
 
+                if (std::abs(bestScore) < kScoreMaxMate) {
+                    r += alphaRaises;
+                }
+
                 if (pos.isInCheck()) {
                     r -= 1 + (dist == 1);
                 }
@@ -932,6 +937,7 @@ namespace stoat {
             if (score > alpha) {
                 alpha = score;
                 bestMove = move;
+                alphaRaises++;
 
                 if constexpr (kPvNode) {
                     assert(curr.pv.length + 1 <= kMaxDepth);
