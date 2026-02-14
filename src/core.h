@@ -113,6 +113,23 @@ namespace stoat {
                 || m_id == kRookId;
         }
 
+        [[nodiscard]] constexpr bool oftenShouldPromote() const {
+            switch (m_id) {
+                // Heuristically, these pieces should basically always promote when they are able to.
+                case kPawnId:
+                case kBishopId:
+                case kRookId:
+                // Heuristically, these pieces should almost always promote.
+                case kLanceId:
+                case kKnightId:
+                    return true;
+                // A silver's backwards movement may be helpful and thus we should not force promotion.
+                case kSilverId:
+                default:
+                    return false;
+            }
+        }
+
         [[nodiscard]] constexpr Piece withColor(Color c) const;
 
         [[nodiscard]] constexpr PieceType promoted() const {
@@ -593,6 +610,10 @@ namespace stoat {
             } else {
                 return rotate();
             }
+        }
+
+        [[nodiscard]] constexpr bool isInPromoAreaFor(Color c) const {
+            return relative(c).m_id <= k1GId;
         }
 
         [[nodiscard]] constexpr u128 bit() const {

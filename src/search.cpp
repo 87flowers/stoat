@@ -1082,6 +1082,13 @@ namespace stoat {
                 continue;
             }
 
+            if (!move.isPromo() && !move.isDrop()
+                && (move.to().isInPromoAreaFor(pos.stm()) || move.from().isInPromoAreaFor(pos.stm()))
+                && pos.pieceOn(move.from()).type().oftenShouldPromote())
+            {
+                continue;
+            }
+
             if (bestScore > -kScoreWin) {
                 if (!see::see(pos, move, -77)) {
                     continue;
