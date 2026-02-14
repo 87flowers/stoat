@@ -827,6 +827,10 @@ namespace stoat {
                     r -= 1 + (see::pieceValue(pos.pieceOn(move.to()).type()) + 150) / 250;
                 }
 
+                if (ply >= 1 && pos.isCapture(move) && move.to() == thread.stack[ply - 1].move.to()) {
+                    r -= 1;
+                }
+
                 if (move.isDrop()) {
                     r -= dist < 3 && !pos.attackersTo(move.to(), pos.stm()).empty();
                     r -= (attacks::pieceAttacks(move.dropPiece(), move.to(), pos.stm(), pos.occupancy())
