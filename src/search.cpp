@@ -726,9 +726,11 @@ namespace stoat {
                     generator.skipNonCaptures();
                 }
 
-                if (depth <= 8 && !pos.isInCheck() && alpha < 2000 && !pos.isCapture(move)
-                    && curr.staticEval + 150 + 100 * depth + history / 128 <= alpha)
-                {
+                const auto fpThreshold = curr.staticEval + 150 + 100 * depth + history / 128;
+                if (depth <= 8 && !pos.isInCheck() && alpha < 2000 && !pos.isCapture(move) && fpThreshold <= alpha) {
+                    if (bestScore <= fpThreshold) {
+                        bestScore = fpThreshold;
+                    }
                     continue;
                 }
 
