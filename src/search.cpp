@@ -851,10 +851,7 @@ namespace stoat {
                 r += !improving;
                 r -= history / 8192;
                 r += expectedCutnode * 3;
-
-                if (std::abs(bestScore) < kScoreMaxMate) {
-                    r += alphaRaises / 2;
-                }
+                r += alphaRaises;
 
                 if (pos.isInCheck()) {
                     r -= 1 + (dist == 1);
@@ -937,7 +934,9 @@ namespace stoat {
             if (score > alpha) {
                 alpha = score;
                 bestMove = move;
-                alphaRaises++;
+                if (std::abs(bestScore) < kScoreMaxMate) {
+                    alphaRaises++;
+                }
 
                 if constexpr (kPvNode) {
                     assert(curr.pv.length + 1 <= kMaxDepth);
